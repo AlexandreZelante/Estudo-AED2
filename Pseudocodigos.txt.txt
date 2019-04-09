@@ -1,0 +1,95 @@
+//Com o DFST a gente acha uma árvore geradora daquele grafo
+
+
+
+/*
+    Como determinar se um grafo é biconexo:
+        Visitar todos os vertices e determinar a ordem a qual cada um foi visitado
+        
+        Na volta, determinar o menor dos valores de cada vértice em relação aos seus adjacentes
+            exceto com o seu pai
+
+        Se a ordem de um vértice for igual ou maior que o seu mínimo, exceto o primeiro vértice,
+            quer dizer que é um grafo não biconexo
+
+        Para achar a aresta crítica, do(s) vértice(s) encontrado(s) percorre todos os adjacentes
+            e o vértice que não tiver o mesmo valor de mínimo, é uma aresta crítica. 
+            Ou também a aresta crítica é a ligação do vértice achado com seu pai
+
+        Se tiver um vértice em que o menor do filho for igual a ordem em que foi visitado,
+            esse vértice é crítico.
+*/
+
+/*
+    ST-Numeração
+    Enumerar o grafo para que sejam do maior até o menor até o final:
+        Fazer uma lista duplamente ligada para armazenar uma nova lista percorrendo os vértices
+            do grafo
+
+        Comparação: se o minimo do filho é menor ou igual a ordem do pai, coloca o vértice à 
+                    esquerda do pai, senão à direita do pai na lista duplamente ligada
+        Fazer uma segunda lista com essas comparações e enumerá-la depois       
+
+
+    Utilidade para ST-Numeração
+        Algoritmo de Booth and Lueker
+*/
+
+/*
+    Árvore Geradora do DFS:
+        é a árvore gerada com a marcação do pai a cada vértice percorrido na busca 
+
+    Faça um algoritmo que conte quantas componentes conexas existem
+*/
+
+DFST(G){
+    para todo x E V.G{
+        x.pai = 0
+        x.cor = branco
+        x.minor = numeroDeVertices
+        x.ordem = 0
+    }
+    ord = 0
+    seja v um vértice de V.G
+    v.cor = cinza
+    v.ordem = ++ord
+    DFS1(G, v)
+    
+    se (ord != n) {
+        imprime(não é conexo)
+        return false
+    }
+
+    v.minor = v.ordem
+    DFS2(G,v)
+    para todo x E V.G{
+        se ((x != v) && (x.ordem = x.minor)) return false
+    }
+    return true
+
+}
+    
+
+DFS1(G,y){
+    para todo y E Adj(y){
+        se(u.cor == branco){
+            u.cor = cinza
+            u.ordem = u.minor = ++ord
+            u.pai = y
+            DFS1(G,y)
+        }
+    }
+}
+
+DFS2(G, z){
+    para todo u E Adj(z){
+        se (u.pai == z){
+            DFS2(G,u)
+        }
+    }
+    para todo u E Adj(z){
+        se ((u != z.pai) && u.minor < z.minor){
+            z.minor = u.minor
+        }
+    }
+}
