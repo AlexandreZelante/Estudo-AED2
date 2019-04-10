@@ -58,7 +58,7 @@ void DFST(GRAFO*g){
 
     //Agora eu vou escolher um vertice inicial e definir ele como cinza e chamar a função DFS
     g->vetor[0]->cor = CINZA;
-    g->vetor[0]->pai = -1;
+    g->vetor[0]->pai = NULL;
     
 }
 

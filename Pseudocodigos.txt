@@ -71,7 +71,7 @@ DFST(G){
     
 
 DFS1(G,y){
-    para todo y E Adj(y){
+    para todo u E Adj(y){
         se(u.cor == branco){
             u.cor = cinza
             u.ordem = u.minor = ++ord
